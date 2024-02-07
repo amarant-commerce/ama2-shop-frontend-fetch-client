@@ -2,7 +2,7 @@
   "name": "amarant2-shop-frontend-fetch-client",
   "version": "1.0.0",
   "description": "Fetch client for Amarant Commerce 2.0 Shop Frontend API",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc"
   },

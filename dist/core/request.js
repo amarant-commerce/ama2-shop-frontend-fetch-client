@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 /* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
@@ -116,22 +107,29 @@ export const getFormData = (options) => {
     }
     return undefined;
 };
-export const resolve = (options, resolver) => __awaiter(void 0, void 0, void 0, function* () {
+export const resolve = async (options, resolver) => {
     if (typeof resolver === 'function') {
         return resolver(options);
     }
     return resolver;
-});
-export const getHeaders = (config, options) => __awaiter(void 0, void 0, void 0, function* () {
-    const [token, username, password, additionalHeaders] = yield Promise.all([
+};
+export const getHeaders = async (config, options) => {
+    const [token, username, password, additionalHeaders] = await Promise.all([
         resolve(options, config.TOKEN),
         resolve(options, config.USERNAME),
         resolve(options, config.PASSWORD),
         resolve(options, config.HEADERS),
     ]);
-    const headers = Object.entries(Object.assign(Object.assign({ Accept: 'application/json' }, additionalHeaders), options.headers))
+    const headers = Object.entries({
+        Accept: 'application/json',
+        ...additionalHeaders,
+        ...options.headers,
+    })
         .filter(([_, value]) => isDefined(value))
-        .reduce((headers, [key, value]) => (Object.assign(Object.assign({}, headers), { [key]: String(value) })), {});
+        .reduce((headers, [key, value]) => ({
+        ...headers,
+        [key]: String(value),
+    }), {});
     if (isStringWithValue(token)) {
         headers['Authorization'] = `Bearer ${token}`;
     }
@@ -154,7 +152,7 @@ export const getHeaders = (config, options) => __awaiter(void 0, void 0, void 0,
         }
     }
     return new Headers(headers);
-});
+};
 export const getRequestBody = (options) => {
     var _a;
     if (options.body !== undefined) {
@@ -170,7 +168,7 @@ export const getRequestBody = (options) => {
     }
     return undefined;
 };
-export const sendRequest = (config, options, url, body, formData, headers, onCancel) => __awaiter(void 0, void 0, void 0, function* () {
+export const sendRequest = async (config, options, url, body, formData, headers, onCancel) => {
     const controller = new AbortController();
     const request = {
         headers,
@@ -182,8 +180,8 @@ export const sendRequest = (config, options, url, body, formData, headers, onCan
         request.credentials = config.CREDENTIALS;
     }
     onCancel(() => controller.abort());
-    return yield fetch(url, request);
-});
+    return await fetch(url, request);
+};
 export const getResponseHeader = (response, responseHeader) => {
     if (responseHeader) {
         const content = response.headers.get(responseHeader);
@@ -193,7 +191,7 @@ export const getResponseHeader = (response, responseHeader) => {
     }
     return undefined;
 };
-export const getResponseBody = (response) => __awaiter(void 0, void 0, void 0, function* () {
+export const getResponseBody = async (response) => {
     if (response.status !== 204) {
         try {
             const contentType = response.headers.get('Content-Type');
@@ -201,10 +199,10 @@ export const getResponseBody = (response) => __awaiter(void 0, void 0, void 0, f
                 const jsonTypes = ['application/json', 'application/problem+json'];
                 const isJSON = jsonTypes.some(type => contentType.toLowerCase().startsWith(type));
                 if (isJSON) {
-                    return yield response.json();
+                    return await response.json();
                 }
                 else {
-                    return yield response.text();
+                    return await response.text();
                 }
             }
         }
@@ -213,10 +211,19 @@ export const getResponseBody = (response) => __awaiter(void 0, void 0, void 0, f
         }
     }
     return undefined;
-});
+};
 export const catchErrorCodes = (options, result) => {
     var _a, _b;
-    const errors = Object.assign({ 400: 'Bad Request', 401: 'Unauthorized', 403: 'Forbidden', 404: 'Not Found', 500: 'Internal Server Error', 502: 'Bad Gateway', 503: 'Service Unavailable' }, options.errors);
+    const errors = {
+        400: 'Bad Request',
+        401: 'Unauthorized',
+        403: 'Forbidden',
+        404: 'Not Found',
+        500: 'Internal Server Error',
+        502: 'Bad Gateway',
+        503: 'Service Unavailable',
+        ...options.errors,
+    };
     const error = errors[result.status];
     if (error) {
         throw new ApiError(options, result, error);
@@ -243,15 +250,15 @@ export const catchErrorCodes = (options, result) => {
  * @throws ApiError
  */
 export const request = (config, options) => {
-    return new CancelablePromise((resolve, reject, onCancel) => __awaiter(void 0, void 0, void 0, function* () {
+    return new CancelablePromise(async (resolve, reject, onCancel) => {
         try {
             const url = getUrl(config, options);
             const formData = getFormData(options);
             const body = getRequestBody(options);
-            const headers = yield getHeaders(config, options);
+            const headers = await getHeaders(config, options);
             if (!onCancel.isCancelled) {
-                const response = yield sendRequest(config, options, url, body, formData, headers, onCancel);
-                const responseBody = yield getResponseBody(response);
+                const response = await sendRequest(config, options, url, body, formData, headers, onCancel);
+                const responseBody = await getResponseBody(response);
                 const responseHeader = getResponseHeader(response, options.responseHeader);
                 const result = {
                     url,
@@ -267,5 +274,5 @@ export const request = (config, options) => {
         catch (error) {
             reject(error);
         }
-    }));
+    });
 };
