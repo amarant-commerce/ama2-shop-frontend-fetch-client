@@ -1,5 +1,5 @@
 export type AmarantSearchResultProductSearchResultItemModel = {
-    attributes: {
+    attributes?: {
         id?: number;
         name?: string;
         description?: string;

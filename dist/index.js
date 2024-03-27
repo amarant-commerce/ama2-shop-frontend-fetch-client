@@ -11,9 +11,12 @@ export { AmarantAttributeInputTypeEnum } from './models/AmarantAttributeInputTyp
 export { AmarantAttributeModelFlag } from './models/AmarantAttributeModelFlag';
 export { AmarantDataScope } from './models/AmarantDataScope';
 export { AmarantProductPriceItem } from './models/AmarantProductPriceItem';
+export { AmarantSalesCustomerAccountStateOutputDto } from './models/AmarantSalesCustomerAccountStateOutputDto';
 export { AliasService } from './services/AliasService';
 export { AttributesService } from './services/AttributesService';
 export { CartsService } from './services/CartsService';
+export { CategoriesService } from './services/CategoriesService';
+export { CustomersService } from './services/CustomersService';
 export { ProductsService } from './services/ProductsService';
 export { SearchService } from './services/SearchService';
 export { ViewService } from './services/ViewService';

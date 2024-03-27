@@ -23,7 +23,7 @@ export declare class CartsService {
      * Add item to cart.
      * @param id Cart ID.
      * @param requestBody
-     * @returns AmarantCartModel Resource created.
+     * @returns AmarantCartModel OK
      * @throws ApiError
      */
     static addItemToCart(id: string, requestBody?: AddItemToCartInputAmarantSalesCartItemInputProductDto): CancelablePromise<AmarantCartModel>;

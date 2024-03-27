@@ -1,4 +1,5 @@
 import type { AmarantApiPaginatedCollectionResponse } from '../models/AmarantApiPaginatedCollectionResponse';
+import type { AmarantProductCategoryNodeItem } from '../models/AmarantProductCategoryNodeItem';
 import type { AmarantProductModel } from '../models/AmarantProductModel';
 import type { AmarantSearchCriteriaFilter } from '../models/AmarantSearchCriteriaFilter';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -23,4 +24,12 @@ export declare class ProductsService {
      * @throws ApiError
      */
     static getProductItem(id: number): CancelablePromise<AmarantProductModel>;
+    /**
+     * Get product category item.
+     * Get product category item.
+     * @param id Category ID
+     * @returns AmarantProductCategoryNodeItem OK
+     * @throws ApiError
+     */
+    static getCategoryItem(id: number): CancelablePromise<AmarantProductCategoryNodeItem>;
 }
