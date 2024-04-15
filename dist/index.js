@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -16,6 +16,7 @@ export { AliasService } from './services/AliasService';
 export { AttributesService } from './services/AttributesService';
 export { CartsService } from './services/CartsService';
 export { CategoriesService } from './services/CategoriesService';
+export { CmsService } from './services/CmsService';
 export { CustomersService } from './services/CustomersService';
 export { ProductsService } from './services/ProductsService';
 export { SearchService } from './services/SearchService';
